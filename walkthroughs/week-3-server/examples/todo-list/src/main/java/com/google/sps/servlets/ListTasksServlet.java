@@ -29,28 +29,30 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.google.sps.data.Tasko;
+import static com.googlecode.objectify.ObjectifyService.ofy;
 
 /** Servlet responsible for listing tasks. */
-@WebServlet("/list-tasks")
 public class ListTasksServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Task").addSort("timestamp", SortDirection.DESCENDING);
+    // Query query = new Query("Task").addSort("timestamp", SortDirection.DESCENDING);
 
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    PreparedQuery results = datastore.prepare(query);
+    // DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    // PreparedQuery results = datastore.prepare(query);
 
-    List<Task> tasks = new ArrayList<>();
-    for (Entity entity : results.asIterable()) {
-      long id = entity.getKey().getId();
-      String title = (String) entity.getProperty("title");
-      long timestamp = (long) entity.getProperty("timestamp");
+    // List<Task> tasks = new ArrayList<>();
+    // for (Entity entity : results.asIterable()) {
+    //   long id = entity.getKey().getId();
+    //   String title = (String) entity.getProperty("title");
+    //   long timestamp = (long) entity.getProperty("timestamp");
 
-      Task task = new Task(id, title, timestamp);
-      tasks.add(task);
-    }
+    //   Task task = new Task(id, title, timestamp);
+    //   tasks.add(task);
+    // }
 
+    List<Tasko> tasks = ofy().load().type(Tasko.class).list();
     Gson gson = new Gson();
 
     response.setContentType("application/json;");

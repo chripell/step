@@ -23,17 +23,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.google.sps.data.Tasko;
+import static com.googlecode.objectify.ObjectifyService.ofy;
 
 /** Servlet responsible for deleting tasks. */
-@WebServlet("/delete-task")
 public class DeleteTaskServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     long id = Long.parseLong(request.getParameter("id"));
 
-    Key taskEntityKey = KeyFactory.createKey("Task", id);
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.delete(taskEntityKey);
+    ofy().delete().type(Tasko.class).id(id).now();
+    // Key taskEntityKey = KeyFactory.createKey("Task", id);
+    // DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    // datastore.delete(taskEntityKey);
   }
 }

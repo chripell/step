@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+
+	<listener>
+	  <listener-class>com.google.sps.Init</listener-class>
+	</listener>
+        <filter>
+	  <filter-name>ObjectifyFilter</filter-name>
+	  <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
+        </filter>
+        <filter-mapping>
+	  <filter-name>ObjectifyFilter</filter-name>
+	  <url-pattern>/*</url-pattern>
+        </filter-mapping>
+        <servlet>
+          <servlet-name>NewTaskServlet</servlet-name>
+          <servlet-class>com.google.sps.servlets.NewTaskServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+          <servlet-name>NewTaskServlet</servlet-name>
+          <url-pattern>/new-task</url-pattern>
+        </servlet-mapping>
+
+        <servlet>
+          <servlet-name>ListTasksServlet</servlet-name>
+          <servlet-class>com.google.sps.servlets.ListTasksServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+          <servlet-name>ListTasksServlet</servlet-name>
+          <url-pattern>/list-tasks</url-pattern>
+        </servlet-mapping>
+
+        <servlet>
+          <servlet-name>DeleteTaskServlet</servlet-name>
+          <servlet-class>com.google.sps.servlets.DeleteTaskServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+          <servlet-name>DeleteTaskServlet</servlet-name>
+          <url-pattern>/delete-task</url-pattern>
+        </servlet-mapping>
+</web-app>
+
