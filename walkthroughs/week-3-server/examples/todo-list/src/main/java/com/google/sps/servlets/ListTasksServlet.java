@@ -52,7 +52,7 @@ public class ListTasksServlet extends HttpServlet {
     //   tasks.add(task);
     // }
 
-    List<Tasko> tasks = ofy().load().type(Tasko.class).list();
+    List<Tasko> tasks = ofy().load().type(Tasko.class).order("-timestamp").list();
     Gson gson = new Gson();
 
     response.setContentType("application/json;");

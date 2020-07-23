@@ -7,7 +7,7 @@ import com.googlecode.objectify.annotation.*;
 public class Tasko {
   @Id Long id;
   String title;
-  long timestamp;
+  @Index long timestamp;
 
   public Tasko(String title) {
     this.title = title;
