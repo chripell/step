@@ -49,14 +49,22 @@ func main() {
 	// [END setting_port]
 	r := mux.NewRouter()
 	r.HandleFunc("/login", GetLoginURL)
+	r.HandleFunc("/who", who)
 	r.HandleFunc("/", indexHandler)
 	http.Handle("/", r)
-	http.ListenAndServe(":"+port, nil)
+	go http.ListenAndServe(":"+port, nil)
+	appengine.Main()
 }
 
 // [END main_func]
 
 // [START indexHandler]
+
+func who(w http.ResponseWriter, r *http.Request) {
+	ctx := appengine.NewContext(r)
+	u := user.Current(ctx)
+	w.Write([]byte(fmt.Sprintf(`email: %s authdomain: %s id: %s cid: %s`, u.Email, u.AuthDomain, u.ID, u.ClientID)))
+}
 
 // indexHandler responds to requests with our greeting.
 func indexHandler(w http.ResponseWriter, r *http.Request) {
