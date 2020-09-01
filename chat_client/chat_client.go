@@ -1,11 +1,12 @@
 package main
 import (
- "context"
- "log"
- "net/http"
- "golang.org/x/oauth2"
- "golang.org/x/oauth2/google"
- chat "google.golang.org/api/chat/v1"
+	"context"
+	"log"
+	"fmt"
+	"net/http"
+	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/google"
+	chat "google.golang.org/api/chat/v1"
 )
 
 // To run locally:
@@ -23,8 +24,22 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to create chat service: %s", err)
 	}
-	msgService := chat.NewSpacesMessagesService(service)
-	log.Printf("%v created", msgService)
+	spaceSrv := chat.NewSpacesService(service)
+	token := ""
+	for {
+		l := spaceSrv.List().Context(ctx)
+		if token != "" {
+			l = l.PageToken(token)
+		}
+		resp, err := l.Do()
+		if err != nil {
+			log.Fatalf("Space listing failed: %v", err)
+		}
+		token = resp.NextPageToken
+		for _, s := range resp.Spaces {
+			fmt.Printf("%s %s\n", s.Name, s.DisplayName)
+		}
+	}
 }
 
 func getOauthClient(ctx context.Context) *http.Client {
